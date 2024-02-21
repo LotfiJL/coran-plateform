@@ -5,6 +5,7 @@ async function getReciters() {
   const reciter = document.getElementById("chooseReciter");
   const response = await fetch(`${apiURL}/reciters?language=${language}`);
   const data = await response.json();
+  reciter.innerHTML = ` <option value =""> اختر </option>`;
 
   data.reciters.forEach((rec) => {
     reciter.innerHTML += ` <option value = ${rec.id}> ${rec.name} </option>`;
@@ -14,6 +15,8 @@ async function getReciters() {
   });
 }
 getReciters();
+
+//---------------------------------------
 
 async function getRiwayah(riwaya) {
   //console.log("riwaya:", riwaya);
@@ -25,6 +28,13 @@ async function getRiwayah(riwaya) {
   //console.log(data.reciters[0].moshaf);
   const Moshafs = data.reciters[0].moshaf;
   //console.log(Moshafs);
+  Riwayah.innerHTML += ` <option
+    
+  value = ""
+  data-server = ""
+  data-surah = ""
+  > اختر </option>`;
+
   Moshafs.forEach((riway) => {
     //console.log(riway);
 
@@ -45,20 +55,37 @@ async function getRiwayah(riwaya) {
   });
 }
 
+//---------------------------------------------------------------
+
 async function getSurah(surahServer, surahList) {
+  console.log("aaa", surahServer);
   const Suraah = document.getElementById("chooseSurah");
   const response = await fetch(`${apiURL}/suwar`);
   const data = await response.json();
-  console.log(data.suwar);
+  //console.log(data.suwar);
   const suraNames = data.suwar; // Rename variable to suraNames
   const selectedSurahs = surahList.split(",");
+  Suraah.innerHTML = `<option value "">اختر</option>`;
+
   //console.log(selectedSurahs);
   selectedSurahs.forEach((suraId) => {
+    const padSurah = suraId.padStart(3, "0");
     suraNames.forEach((suraName) => {
       if (suraName.id == suraId) {
-        console.log(suraName.name);
-        Suraah.innerHTML += `<option value ${suraName.id}>${suraName.name}</option>`;
+        // console.log(suraName.name);
+        Suraah.innerHTML += `<option value="${surahServer}${padSurah}.mp3">${suraName.name}</option>`;
       }
     });
   });
+
+  Suraah.addEventListener("change", (e) => {
+    const selectedSuraa = Suraah.options[Suraah.selectedIndex];
+    PlyerSuraa(selectedSuraa.value);
+  });
+}
+
+function PlyerSuraa(surahMp3) {
+  const audioPlayer = document.querySelector("#audioP");
+  audioPlayer.src = surahMp3;
+  audioPlayer.play();
 }
