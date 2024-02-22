@@ -25,6 +25,8 @@
       rel="stylesheet"
       href="https://unpkg.com/swiper@7/swiper-bundle.min.css"
     />
+
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <!--
 
 TemplateMo 572 Designer
@@ -259,14 +261,14 @@ https://templatemo.com/tm-572-designer
           <h2>اختر قناة بث مباشر</h2>
 
           <span class="white-button  ">
-            <a href="#">قناة القرآن الكريم </a>
+            <a href="javascript:void()" onclick="playLive('https://win.holol.com/live/quran/playlist.m3u8')">قناة القرآن الكريم </a>
           </span>
 
           <span class="white-button ">
-            <a href="#"> قناة السيرة النبوية </a>
+            <a href="javascript:void()" onclick="playLive('https://win.holol.com/live/sunnah/playlist.m3u8')"> قناة السيرة النبوية </a>
           </span>
   </div>
-          <video width="100%" controls>
+          <video id ="Lvideo" width="100%" controls>
             <source src="#" type="video/mp4" />
             <source src="#" type="video/ogg" />
             Your browser does not support the video tag.
